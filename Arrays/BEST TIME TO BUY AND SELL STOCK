@@ -1,0 +1,47 @@
+/*
+Best Time to Buy and Sell Stock
+
+Problem:
+You are given an array where each element represents the price of a stock on a particular day.
+
+Choose one day to buy and a later day to sell.
+
+Return the maximum profit possible. If no profit can be made, return 0.
+
+Example:
+Input:
+[7,1,5,3,6,4]
+
+Output:
+5
+*/
+
+import java.util.*;
+
+public class BestTimeToBuyAndSellStock {
+
+  static int stock(int[] a) {
+    int m=a[0],ans=0;
+
+    for(int i=1;i<a.length;i++) {
+      if(a[i]<m)
+        m=a[i];
+      else if(a[i]-m>ans)
+        ans=a[i]-m;
+    }
+
+    return ans;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    int[] a=new int[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.nextInt();
+
+    System.out.println(stock(a));
+  }
+}
