@@ -1,0 +1,47 @@
+/*
+Move Zeroes
+
+Problem:
+Move all zero values to the end of the array while maintaining the relative order of non-zero elements.
+
+Do the operation in-place.
+
+Example:
+Input:
+[0,1,0,3,12]
+
+Output:
+[1,3,12,0,0]
+*/
+
+import java.util.*;
+
+public class MoveZeroes {
+
+  static void move(int[] a) {
+    int j=0;
+
+    for(int i=0;i<a.length;i++) {
+      if(a[i]!=0) {
+        int t=a[i];
+        a[i]=a[j];
+        a[j]=t;
+        j++;
+      }
+    }
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    int[] a=new int[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.nextInt();
+
+    move(a);
+
+    System.out.println(Arrays.toString(a));
+  }
+}
