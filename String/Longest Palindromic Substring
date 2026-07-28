@@ -1,0 +1,61 @@
+/*
+Longest Palindromic Substring
+
+Problem:
+Given a string s, return the longest substring of s that is a palindrome.
+
+A palindrome is a string that reads the same forward and backward.
+
+Example:
+Input:
+babad
+
+Output:
+bab
+*/
+
+import java.util.*;
+
+public class LongestPalindromicSubstring {
+
+  static String pal(String s) {
+    if(s.length()<2)
+      return s;
+
+    int st=0,m=1;
+
+    for(int i=0;i<s.length();i++) {
+
+      int l=i,r=i;
+      while(l>=0 && r<s.length() && s.charAt(l)==s.charAt(r)) {
+        if(r-l+1>m) {
+          m=r-l+1;
+          st=l;
+        }
+        l--;
+        r++;
+      }
+
+      l=i;
+      r=i+1;
+      while(l>=0 && r<s.length() && s.charAt(l)==s.charAt(r)) {
+        if(r-l+1>m) {
+          m=r-l+1;
+          st=l;
+        }
+        l--;
+        r++;
+      }
+    }
+
+    return s.substring(st,st+m);
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    String s=sc.nextLine();
+
+    System.out.println(pal(s));
+  }
+}
