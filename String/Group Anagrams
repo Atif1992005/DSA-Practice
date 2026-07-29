@@ -1,0 +1,52 @@
+/*
+Group Anagrams
+
+Problem:
+Given an array of strings, group the strings that are anagrams of each other.
+
+You may return the groups in any order.
+
+Example:
+Input:
+["eat","tea","tan","ate","nat","bat"]
+
+Output:
+[[eat, tea, ate], [tan, nat], [bat]]
+*/
+
+import java.util.*;
+
+public class GroupAnagrams {
+
+  static List<List<String>> grp(String[] a) {
+
+    HashMap<String,List<String>> m=new HashMap<>();
+
+    for(String s:a) {
+
+      char[] c=s.toCharArray();
+      Arrays.sort(c);
+
+      String k=new String(c);
+
+      if(!m.containsKey(k))
+        m.put(k,new ArrayList<>());
+
+      m.get(k).add(s);
+    }
+
+    return new ArrayList<>(m.values());
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    String[] a=new String[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.next();
+
+    System.out.println(grp(a));
+  }
+}
