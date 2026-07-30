@@ -1,0 +1,49 @@
+/*
+Longest Common Prefix
+
+Problem:
+Write a function to find the longest common prefix string among an array of strings.
+
+If there is no common prefix, return an empty string.
+
+Example:
+Input:
+["flower","flow","flight"]
+
+Output:
+fl
+*/
+
+import java.util.*;
+
+public class LongestCommonPrefix {
+
+  static String pre(String[] a) {
+
+    String x=a[0];
+
+    for(int i=1;i<a.length;i++) {
+
+      while(a[i].indexOf(x)!=0) {
+        x=x.substring(0,x.length()-1);
+
+        if(x.length()==0)
+          return "";
+      }
+    }
+
+    return x;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    String[] a=new String[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.next();
+
+    System.out.println(pre(a));
+  }
+}
