@@ -1,0 +1,72 @@
+/*
+Minimum Window Substring
+
+Problem:
+Given two strings s and t, return the smallest substring of s that contains all the characters of t, including duplicates.
+
+If no such substring exists, return an empty string.
+
+Example:
+Input:
+s = "ADOBECODEBANC"
+t = "ABC"
+
+Output:
+BANC
+*/
+
+import java.util.*;
+
+public class MinimumWindowSubstring {
+
+  static String win(String s,String t) {
+
+    if(s.length()<t.length())
+      return "";
+
+    int[] a=new int[128];
+
+    for(char c:t.toCharArray())
+      a[c]++;
+
+    int l=0,c=t.length();
+    int st=0,m=Integer.MAX_VALUE;
+
+    for(int i=0;i<s.length();i++) {
+
+      if(a[s.charAt(i)]>0)
+        c--;
+
+      a[s.charAt(i)]--;
+
+      while(c==0) {
+
+        if(i-l+1<m) {
+          m=i-l+1;
+          st=l;
+        }
+
+        a[s.charAt(l)]++;
+
+        if(a[s.charAt(l)]>0)
+          c++;
+
+        l++;
+      }
+    }
+
+    if(m==Integer.MAX_VALUE)
+      return "";
+
+    return s.substring(st,st+m);
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    String s=sc.next();
+    String t=sc.next();
+
+    System.out.println(win(s,t));
+  }
+}
