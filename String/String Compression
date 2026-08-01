@@ -1,0 +1,69 @@
+/*
+String Compression
+
+Problem:
+Given an array of characters, compress it in-place.
+
+For consecutive repeating characters, replace them with the character followed by the count of repetitions.
+
+If a character appears only once, keep it as it is.
+
+Return the length of the compressed array.
+
+Example:
+Input:
+['a','a','b','b','c','c','c']
+
+Output:
+6
+
+Compressed Array:
+['a','2','b','2','c','3']
+*/
+
+import java.util.*;
+
+public class StringCompression {
+
+  static int comp(char[] a) {
+
+    int i=0,j=0;
+
+    while(i<a.length) {
+
+      char c=a[i];
+      int cnt=0;
+
+      while(i<a.length && a[i]==c) {
+        i++;
+        cnt++;
+      }
+
+      a[j++]=c;
+
+      if(cnt>1) {
+        char[] x=String.valueOf(cnt).toCharArray();
+
+        for(char k:x)
+          a[j++]=k;
+      }
+    }
+
+    return j;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    char[] a=new char[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.next().charAt(0);
+
+    int x=comp(a);
+
+    for(int i=0;i<x;i++)
+      System.out.print(a[i]+" ");
+  }
+}
