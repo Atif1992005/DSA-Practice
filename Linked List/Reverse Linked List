@@ -1,0 +1,75 @@
+/*
+Reverse Linked List
+
+Problem:
+Given the head of a singly linked list, reverse the list and return the new head.
+
+Example:
+Input:
+1 -> 2 -> 3 -> 4 -> 5
+
+Output:
+5 -> 4 -> 3 -> 2 -> 1
+*/
+
+import java.util.*;
+
+class Node {
+  int d;
+  Node next;
+
+  Node(int x) {
+    d=x;
+  }
+}
+
+public class ReverseLinkedList {
+
+  static Node rev(Node h) {
+
+    Node p=null,c=h;
+
+    while(c!=null) {
+      Node n=c.next;
+      c.next=p;
+      p=c;
+      c=n;
+    }
+
+    return p;
+  }
+
+  static void show(Node h) {
+    while(h!=null) {
+      System.out.print(h.d);
+      if(h.next!=null)
+        System.out.print(" -> ");
+      h=h.next;
+    }
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+
+    Node h=null,t=null;
+
+    for(int i=0;i<n;i++) {
+      Node x=new Node(sc.nextInt());
+
+      if(h==null) {
+        h=x;
+        t=x;
+      }
+      else {
+        t.next=x;
+        t=x;
+      }
+    }
+
+    h=rev(h);
+
+    show(h);
+  }
+}
