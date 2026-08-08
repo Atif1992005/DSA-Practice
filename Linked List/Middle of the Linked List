@@ -1,0 +1,62 @@
+/*
+Middle of the Linked List
+
+Problem:
+Given the head of a singly linked list, return the middle node of the linked list.
+
+If there are two middle nodes, return the second middle node.
+
+Example:
+Input:
+1 -> 2 -> 3 -> 4 -> 5
+
+Output:
+3
+*/
+
+import java.util.*;
+
+class Node {
+  int d;
+  Node next;
+
+  Node(int x) {
+    d=x;
+  }
+}
+
+public class MiddleOfLinkedList {
+
+  static Node mid(Node h) {
+    Node s=h,f=h;
+
+    while(f!=null && f.next!=null) {
+      s=s.next;
+      f=f.next.next;
+    }
+
+    return s;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    Node h=null,t=null;
+
+    for(int i=0;i<n;i++) {
+      Node x=new Node(sc.nextInt());
+
+      if(h==null) {
+        h=x;
+        t=x;
+      }
+      else {
+        t.next=x;
+        t=x;
+      }
+    }
+
+    System.out.println(mid(h).d);
+  }
+}
