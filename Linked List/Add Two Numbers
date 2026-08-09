@@ -1,0 +1,101 @@
+/*
+Add Two Numbers
+
+Problem:
+You are given two non-empty linked lists representing two non-negative integers.
+
+The digits are stored in reverse order, and each node contains a single digit.
+
+Add the two numbers and return the sum as a linked list.
+
+Example:
+Input:
+2 -> 4 -> 3
+5 -> 6 -> 4
+
+Output:
+7 -> 0 -> 8
+*/
+
+import java.util.*;
+
+class Node {
+  int d;
+  Node next;
+
+  Node(int x) {
+    d=x;
+  }
+}
+
+public class AddTwoNumbers {
+
+  static Node add(Node a,Node b) {
+
+    Node x=new Node(0),t=x;
+    int c=0;
+
+    while(a!=null || b!=null || c!=0) {
+
+      int s=c;
+
+      if(a!=null) {
+        s+=a.d;
+        a=a.next;
+      }
+
+      if(b!=null) {
+        s+=b.d;
+        b=b.next;
+      }
+
+      t.next=new Node(s%10);
+      t=t.next;
+      c=s/10;
+    }
+
+    return x.next;
+  }
+
+  static Node make(Scanner sc,int n) {
+    Node h=null,t=null;
+
+    for(int i=0;i<n;i++) {
+      Node x=new Node(sc.nextInt());
+
+      if(h==null) {
+        h=x;
+        t=x;
+      }
+      else {
+        t.next=x;
+        t=x;
+      }
+    }
+
+    return h;
+  }
+
+  static void show(Node h) {
+    while(h!=null) {
+      System.out.print(h.d);
+
+      if(h.next!=null)
+        System.out.print(" -> ");
+
+      h=h.next;
+    }
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    Node a=make(sc,n);
+
+    int m=sc.nextInt();
+    Node b=make(sc,m);
+
+    show(add(a,b));
+  }
+}
