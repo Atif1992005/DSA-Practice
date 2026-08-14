@@ -1,0 +1,91 @@
+/*
+Reverse Nodes in k-Group
+
+Problem:
+Given the head of a linked list, reverse the nodes of the list k at a time and return the modified list.
+
+If the number of nodes is not a multiple of k, leave the remaining nodes as they are.
+
+Example:
+Input:
+1 -> 2 -> 3 -> 4 -> 5
+k = 2
+
+Output:
+2 -> 1 -> 4 -> 3 -> 5
+*/
+
+import java.util.*;
+
+class Node {
+  int d;
+  Node next;
+
+  Node(int x) {
+    d=x;
+  }
+}
+
+public class ReverseNodesInKGroup {
+
+  static Node rev(Node h,int k) {
+
+    Node x=h;
+
+    for(int i=0;i<k;i++) {
+      if(x==null)
+        return h;
+      x=x.next;
+    }
+
+    Node p=null,c=h;
+
+    for(int i=0;i<k;i++) {
+      Node n=c.next;
+      c.next=p;
+      p=c;
+      c=n;
+    }
+
+    h.next=rev(c,k);
+
+    return p;
+  }
+
+  static void show(Node h) {
+    while(h!=null) {
+      System.out.print(h.d);
+
+      if(h.next!=null)
+        System.out.print(" -> ");
+
+      h=h.next;
+    }
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    Node h=null,t=null;
+
+    for(int i=0;i<n;i++) {
+      Node x=new Node(sc.nextInt());
+
+      if(h==null) {
+        h=x;
+        t=x;
+      }
+      else {
+        t.next=x;
+        t=x;
+      }
+    }
+
+    int k=sc.nextInt();
+
+    h=rev(h,k);
+
+    show(h);
+  }
+}
