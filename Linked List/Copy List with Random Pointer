@@ -1,0 +1,99 @@
+/*
+Copy List with Random Pointer
+
+Problem:
+A linked list is given where each node contains a value, a next pointer,
+and a random pointer that can point to any node in the list or null.
+
+Create a deep copy of the linked list and return its head.
+
+Example:
+Input:
+7 -> 13 -> 11 -> 10 -> 1
+
+Random pointers:
+7 -> null
+13 -> 7
+11 -> 1
+10 -> 11
+1 -> 7
+
+Output:
+A deep copy of the linked list with the same values and random pointer structure.
+*/
+
+import java.util.*;
+
+class Node {
+  int d;
+  Node next,random;
+
+  Node(int x) {
+    d=x;
+  }
+}
+
+public class CopyListWithRandomPointer {
+
+  static Node copy(Node h) {
+    if(h==null)
+      return null;
+
+    HashMap<Node,Node> m=new HashMap<>();
+
+    Node x=h;
+
+    while(x!=null) {
+      m.put(x,new Node(x.d));
+      x=x.next;
+    }
+
+    x=h;
+
+    while(x!=null) {
+      Node y=m.get(x);
+
+      y.next=m.get(x.next);
+      y.random=m.get(x.random);
+
+      x=x.next;
+    }
+
+    return m.get(h);
+  }
+
+  static void show(Node h) {
+    while(h!=null) {
+      System.out.print(h.d);
+
+      if(h.next!=null)
+        System.out.print(" -> ");
+
+      h=h.next;
+    }
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    Node[] a=new Node[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=new Node(sc.nextInt());
+
+    for(int i=0;i<n-1;i++)
+      a[i].next=a[i+1];
+
+    for(int i=0;i<n;i++) {
+      int x=sc.nextInt();
+
+      if(x!=-1)
+        a[i].random=a[x];
+    }
+
+    Node h=copy(a[0]);
+
+    show(h);
+  }
+}
