@@ -1,0 +1,75 @@
+/*
+Min Stack
+
+Problem:
+Design a stack that supports the following operations:
+
+push(x) - Add an element x to the stack.
+pop() - Remove the element on top of the stack.
+top() - Return the element on top of the stack.
+getMin() - Return the minimum element currently in the stack.
+
+All operations should work in constant time.
+
+Example:
+Input:
+push(5)
+push(3)
+push(7)
+getMin()
+pop()
+getMin()
+
+Output:
+3
+3
+*/
+
+import java.util.*;
+
+public class MinStack {
+
+  Stack<Integer> st=new Stack<>();
+  Stack<Integer> m=new Stack<>();
+
+  void push(int x) {
+    st.push(x);
+
+    if(m.empty() || x<=m.peek())
+      m.push(x);
+  }
+
+  void pop() {
+    if(st.peek().equals(m.peek()))
+      m.pop();
+
+    st.pop();
+  }
+
+  int top() {
+    return st.peek();
+  }
+
+  int getMin() {
+    return m.peek();
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    MinStack s=new MinStack();
+
+    int n=sc.nextInt();
+
+    for(int i=0;i<n;i++) {
+      int x=sc.nextInt();
+      s.push(x);
+    }
+
+    System.out.println(s.getMin());
+
+    s.pop();
+
+    System.out.println(s.getMin());
+  }
+}
