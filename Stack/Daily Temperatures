@@ -1,0 +1,51 @@
+/*
+Daily Temperatures
+
+Problem:
+Given an array of daily temperatures, return an array where each element
+represents how many days you have to wait until a warmer temperature.
+
+If there is no future day with a warmer temperature, put 0 for that day.
+
+Example:
+Input:
+[73,74,75,71,69,72,76,73]
+
+Output:
+[1,1,4,2,1,1,0,0]
+*/
+
+import java.util.*;
+
+public class DailyTemperatures {
+
+  static int[] temp(int[] a) {
+    int n=a.length;
+    int[] b=new int[n];
+    Stack<Integer> st=new Stack<>();
+
+    for(int i=0;i<n;i++) {
+
+      while(!st.empty() && a[i]>a[st.peek()]) {
+        int x=st.pop();
+        b[x]=i-x;
+      }
+
+      st.push(i);
+    }
+
+    return b;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    int[] a=new int[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.nextInt();
+
+    System.out.println(Arrays.toString(temp(a)));
+  }
+}
