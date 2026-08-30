@@ -1,0 +1,53 @@
+/*
+Largest Rectangle in Histogram
+
+Problem:
+Given an array of integers representing the heights of bars in a histogram,
+where the width of each bar is 1, find the area of the largest rectangle
+that can be formed within the histogram.
+
+Example:
+Input:
+[2,1,5,6,2,3]
+
+Output:
+10
+*/
+
+import java.util.*;
+
+public class LargestRectangleHistogram {
+
+  static int area(int[] a) {
+    Stack<Integer> st=new Stack<>();
+    int ans=0;
+
+    for(int i=0;i<=a.length;i++) {
+
+      int x=(i==a.length)?0:a[i];
+
+      while(!st.empty() && x<a[st.peek()]) {
+        int h=a[st.pop()];
+        int w=st.empty()?i:i-st.peek()-1;
+
+        ans=Math.max(ans,h*w);
+      }
+
+      st.push(i);
+    }
+
+    return ans;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    int[] a=new int[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.nextInt();
+
+    System.out.println(area(a));
+  }
+}
