@@ -1,0 +1,60 @@
+/*
+Simplify Path
+
+Problem:
+Given an absolute Unix-style file path, simplify it to its canonical path.
+
+The path may contain ".", "..", and multiple consecutive slashes.
+
+"." represents the current directory.
+".." represents the parent directory.
+Multiple slashes should be treated as a single slash.
+
+Example:
+Input:
+/home//foo/../bar/
+
+Output:
+/home/bar
+*/
+
+import java.util.*;
+
+public class SimplifyPath {
+
+  static String simp(String s) {
+    Stack<String> st=new Stack<>();
+
+    String[] a=s.split("/");
+
+    for(String x:a) {
+      if(x.equals("") || x.equals("."))
+        continue;
+
+      if(x.equals("..")) {
+        if(!st.empty())
+          st.pop();
+      }
+      else
+        st.push(x);
+    }
+
+    StringBuilder b=new StringBuilder();
+
+    for(String x:st)
+      b.append("/").append(x);
+
+    if(b.length()==0)
+      return "/";
+
+    return b.toString();
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    String s=sc.nextLine();
+
+    System.out.println(simp(s));
+  }
+}
