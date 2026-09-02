@@ -1,0 +1,70 @@
+/*
+Decode String
+
+Problem:
+Given an encoded string, decode it according to the following rule:
+
+k[encoded_string]
+
+The encoded_string inside the square brackets is repeated exactly k times.
+
+You may assume that the input string is always valid.
+
+Example:
+Input:
+3[a2[c]]
+
+Output:
+accaccacc
+*/
+
+import java.util.*;
+
+public class DecodeString {
+
+  static String dec(String s) {
+    Stack<Integer> ns=new Stack<>();
+    Stack<String> st=new Stack<>();
+
+    String x="";
+    int n=0;
+
+    for(int i=0;i<s.length();i++) {
+      char c=s.charAt(i);
+
+      if(Character.isDigit(c))
+        n=n*10+c-'0';
+
+      else if(c=='[') {
+        ns.push(n);
+        st.push(x);
+        n=0;
+        x="";
+      }
+
+      else if(c==']') {
+        int k=ns.pop();
+        String p=st.pop();
+        String y="";
+
+        for(int j=0;j<k;j++)
+          y+=x;
+
+        x=p+y;
+      }
+
+      else
+        x+=c;
+    }
+
+    return x;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    String s=sc.nextLine();
+
+    System.out.println(dec(s));
+  }
+}
