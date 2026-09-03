@@ -1,0 +1,49 @@
+/*
+Remove All Adjacent Duplicates in String
+
+Problem:
+Given a string s, repeatedly remove adjacent duplicate characters until
+no adjacent duplicates remain.
+
+Return the final string.
+
+Example:
+Input:
+abbaca
+
+Output:
+ca
+*/
+
+import java.util.*;
+
+public class RemoveAdjacentDuplicates {
+
+  static String rem(String s) {
+    Stack<Character> st=new Stack<>();
+
+    for(int i=0;i<s.length();i++) {
+      char c=s.charAt(i);
+
+      if(!st.empty() && st.peek()==c)
+        st.pop();
+      else
+        st.push(c);
+    }
+
+    StringBuilder b=new StringBuilder();
+
+    for(char c:st)
+      b.append(c);
+
+    return b.toString();
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    String s=sc.nextLine();
+
+    System.out.println(rem(s));
+  }
+}
