@@ -1,0 +1,71 @@
+/*
+Implement Queue Using Stacks
+
+Problem:
+Implement a first in first out (FIFO) queue using only two stacks.
+
+The queue should support the following operations:
+
+push(x) - Adds element x to the back of the queue.
+pop() - Removes the element from the front of the queue.
+peek() - Returns the element at the front of the queue.
+empty() - Returns true if the queue is empty, otherwise false.
+
+Example:
+Input:
+push(1)
+push(2)
+peek()
+pop()
+empty()
+
+Output:
+1
+1
+false
+*/
+
+import java.util.*;
+
+public class QueueUsingStacks {
+
+  Stack<Integer> s1=new Stack<>();
+  Stack<Integer> s2=new Stack<>();
+
+  void push(int x) {
+    while(!s1.empty())
+      s2.push(s1.pop());
+
+    s1.push(x);
+
+    while(!s2.empty())
+      s1.push(s2.pop());
+  }
+
+  int pop() {
+    return s1.pop();
+  }
+
+  int peek() {
+    return s1.peek();
+  }
+
+  boolean empty() {
+    return s1.empty();
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    QueueUsingStacks q=new QueueUsingStacks();
+
+    int n=sc.nextInt();
+
+    for(int i=0;i<n;i++)
+      q.push(sc.nextInt());
+
+    System.out.println(q.peek());
+    System.out.println(q.pop());
+    System.out.println(q.empty());
+  }
+}
