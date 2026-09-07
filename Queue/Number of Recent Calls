@@ -1,0 +1,54 @@
+/*
+Number of Recent Calls
+
+Problem:
+You need to count the number of requests that have been made in the
+past 3000 milliseconds, including the current request.
+
+Implement a class that supports the following operation:
+
+ping(t) - Adds a new request at time t and returns the number of requests
+that have happened in the inclusive time range [t - 3000, t].
+
+The values of t are strictly increasing.
+
+Example:
+Input:
+1
+100
+3001
+3002
+
+Output:
+1
+2
+3
+3
+*/
+
+import java.util.*;
+
+public class NumberOfRecentCalls {
+
+  Queue<Integer> q=new LinkedList<>();
+
+  int ping(int t) {
+    q.add(t);
+
+    while(q.peek()<t-3000)
+      q.remove();
+
+    return q.size();
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    NumberOfRecentCalls x=new NumberOfRecentCalls();
+
+    int n=sc.nextInt();
+
+    for(int i=0;i<n;i++)
+      System.out.println(x.ping(sc.nextInt()));
+  }
+}
