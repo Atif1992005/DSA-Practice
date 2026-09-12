@@ -1,0 +1,114 @@
+/*
+Design Circular Queue
+
+Problem:
+
+Design a circular queue with a fixed size.
+
+The queue should support:
+- enQueue(x): Add an element to the rear.
+- deQueue(): Remove an element from the front.
+- Front(): Return the front element.
+- Rear(): Return the last element.
+- isEmpty(): Check if the queue is empty.
+- isFull(): Check if the queue is full.
+
+Example:
+Input:
+k = 3
+enQueue(1)
+enQueue(2)
+enQueue(3)
+enQueue(4)
+Rear()
+deQueue()
+enQueue(4)
+Rear()
+
+Output:
+false
+3
+true
+4
+*/
+
+import java.util.*;
+
+public class DesignCircularQueue {
+
+  int[] a;
+  int f=0,r=-1,n=0;
+
+  DesignCircularQueue(int k) {
+    a=new int[k];
+  }
+
+  boolean enQueue(int x) {
+    if(n==a.length)
+      return false;
+
+    r=(r+1)%a.length;
+    a[r]=x;
+    n++;
+
+    return true;
+  }
+
+  boolean deQueue() {
+    if(n==0)
+      return false;
+
+    f=(f+1)%a.length;
+    n--;
+
+    return true;
+  }
+
+  int Front() {
+    if(n==0)
+      return -1;
+
+    return a[f];
+  }
+
+  int Rear() {
+    if(n==0)
+      return -1;
+
+    return a[r];
+  }
+
+  boolean isEmpty() {
+    return n==0;
+  }
+
+  boolean isFull() {
+    return n==a.length;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int k=sc.nextInt();
+    DesignCircularQueue x=new DesignCircularQueue(k);
+
+    int m=sc.nextInt();
+
+    for(int i=0;i<m;i++) {
+      int op=sc.nextInt();
+
+      if(op==1)
+        System.out.println(x.enQueue(sc.nextInt()));
+      else if(op==2)
+        System.out.println(x.deQueue());
+      else if(op==3)
+        System.out.println(x.Front());
+      else if(op==4)
+        System.out.println(x.Rear());
+      else if(op==5)
+        System.out.println(x.isEmpty());
+      else if(op==6)
+        System.out.println(x.isFull());
+    }
+  }
+}
