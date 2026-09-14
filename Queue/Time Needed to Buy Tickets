@@ -1,0 +1,66 @@
+/*
+Time Needed to Buy Tickets
+
+Problem:
+
+There are n people standing in a queue to buy tickets.
+The person at index i needs tickets[i] tickets.
+
+Each person takes exactly 1 second to buy one ticket.
+After buying one ticket, if the person still needs tickets,
+they move to the back of the queue.
+
+Find the total time needed for the person at index k to finish
+buying all their tickets.
+
+Example:
+Input:
+tickets = [2,3,2]
+k = 2
+
+Output:
+6
+*/
+
+import java.util.*;
+
+public class TimeNeededToBuyTickets {
+
+  static int timeRequired(int[] a,int k) {
+    Queue<Integer> q=new LinkedList<>();
+
+    for(int i=0;i<a.length;i++)
+      q.add(i);
+
+    int t=0;
+
+    while(!q.isEmpty()) {
+      int x=q.remove();
+
+      a[x]--;
+      t++;
+
+      if(a[x]>0)
+        q.add(x);
+
+      if(a[k]==0)
+        return t;
+    }
+
+    return t;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    int[] a=new int[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.nextInt();
+
+    int k=sc.nextInt();
+
+    System.out.println(timeRequired(a,k));
+  }
+}
