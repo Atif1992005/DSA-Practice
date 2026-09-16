@@ -1,0 +1,88 @@
+/*
+Rotting Oranges
+
+Problem:
+
+You are given a grid where:
+0 represents an empty cell,
+1 represents a fresh orange,
+2 represents a rotten orange.
+
+Every minute, a rotten orange makes all adjacent fresh oranges
+(up, down, left, right) rotten.
+
+Return the minimum number of minutes needed until no fresh oranges
+remain. If some fresh oranges can never become rotten, return -1.
+
+Example:
+Input:
+2 2
+2 1
+1 1
+
+Output:
+2
+*/
+
+import java.util.*;
+
+public class RottingOranges {
+
+  static int orangesRotting(int[][] a) {
+    int n=a.length,m=a[0].length;
+    Queue<int[]> q=new LinkedList<>();
+    int fresh=0,t=0;
+
+    for(int i=0;i<n;i++) {
+      for(int j=0;j<m;j++) {
+        if(a[i][j]==2)
+          q.add(new int[]{i,j});
+        else if(a[i][j]==1)
+          fresh++;
+      }
+    }
+
+    int[][] d={{1,0},{-1,0},{0,1},{0,-1}};
+
+    while(!q.isEmpty() && fresh>0) {
+      int z=q.size();
+
+      for(int x=0;x<z;x++) {
+        int[] p=q.remove();
+
+        for(int[] v:d) {
+          int i=p[0]+v[0];
+          int j=p[1]+v[1];
+
+          if(i>=0 && i<n && j>=0 && j<m && a[i][j]==1) {
+            a[i][j]=2;
+            fresh--;
+            q.add(new int[]{i,j});
+          }
+        }
+      }
+
+      t++;
+    }
+
+    if(fresh>0)
+      return -1;
+
+    return t;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    int m=sc.nextInt();
+
+    int[][] a=new int[n][m];
+
+    for(int i=0;i<n;i++)
+      for(int j=0;j<m;j++)
+        a[i][j]=sc.nextInt();
+
+    System.out.println(orangesRotting(a));
+  }
+}
