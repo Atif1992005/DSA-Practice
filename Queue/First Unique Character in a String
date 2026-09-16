@@ -1,0 +1,47 @@
+/*
+First Unique Character in a String
+
+Problem:
+
+Given a string s, find the index of the first character
+that appears only once in the string.
+
+If no such character exists, return -1.
+
+Example:
+Input:
+leetcode
+
+Output:
+0
+
+Explanation:
+'l' appears only once and is the first unique character.
+*/
+
+import java.util.*;
+
+public class FirstUniqueCharacter {
+
+  static int firstUniq(String s) {
+    HashMap<Character,Integer> m=new HashMap<>();
+
+    for(char c:s.toCharArray())
+      m.put(c,m.getOrDefault(c,0)+1);
+
+    for(int i=0;i<s.length();i++) {
+      if(m.get(s.charAt(i))==1)
+        return i;
+    }
+
+    return -1;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    String s=sc.nextLine();
+
+    System.out.println(firstUniq(s));
+  }
+}
