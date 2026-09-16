@@ -1,0 +1,106 @@
+/*
+Binary Tree Level Order Traversal
+
+Problem:
+
+Given the root of a binary tree, return the values of its nodes
+level by level from left to right.
+
+Example:
+Input:
+3 9 20 null null 15 7
+
+Output:
+[[3],[9,20],[15,7]]
+*/
+
+import java.util.*;
+
+public class BinaryTreeLevelOrder {
+
+  static class Node {
+    int val;
+    Node left,right;
+
+    Node(int x) {
+      val=x;
+    }
+  }
+
+  static Node build(String[] a) {
+    if(a.length==0 || a[0].equals("null"))
+      return null;
+
+    Node root=new Node(Integer.parseInt(a[0]));
+    Queue<Node> q=new LinkedList<>();
+    q.add(root);
+
+    int i=1;
+
+    while(!q.isEmpty() && i<a.length) {
+      Node x=q.remove();
+
+      if(i<a.length && !a[i].equals("null")) {
+        x.left=new Node(Integer.parseInt(a[i]));
+        q.add(x.left);
+      }
+      i++;
+
+      if(i<a.length && !a[i].equals("null")) {
+        x.right=new Node(Integer.parseInt(a[i]));
+        q.add(x.right);
+      }
+      i++;
+    }
+
+    return root;
+  }
+
+  static void levelOrder(Node root) {
+    if(root==null)
+      return;
+
+    Queue<Node> q=new LinkedList<>();
+    q.add(root);
+
+    while(!q.isEmpty()) {
+      int n=q.size();
+
+      System.out.print("[");
+
+      for(int i=0;i<n;i++) {
+        Node x=q.remove();
+
+        System.out.print(x.val);
+
+        if(i<n-1)
+          System.out.print(",");
+
+        if(x.left!=null)
+          q.add(x.left);
+
+        if(x.right!=null)
+          q.add(x.right);
+      }
+
+      System.out.print("]");
+
+      if(!q.isEmpty())
+        System.out.print(",");
+    }
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    String[] a=new String[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.next();
+
+    Node root=build(a);
+
+    levelOrder(root);
+  }
+}
