@@ -1,0 +1,86 @@
+/*
+Open the Lock
+
+Problem:
+
+You have a lock with 4 wheels. Each wheel contains digits from 0 to 9.
+
+Starting from "0000", you can turn one wheel one step forward or
+one step backward at a time.
+
+Some combinations are deadends and cannot be used.
+
+Find the minimum number of turns required to reach the target.
+If the target cannot be reached, return -1.
+
+Example:
+Input:
+deadends = ["0201","0101","0102","1212","2002"]
+target = "0202"
+
+Output:
+6
+*/
+
+import java.util.*;
+
+public class OpenTheLock {
+
+  static int openLock(String[] dead,String target) {
+    HashSet<String> d=new HashSet<>(Arrays.asList(dead));
+    HashSet<String> v=new HashSet<>();
+
+    if(d.contains("0000"))
+      return -1;
+
+    Queue<String> q=new LinkedList<>();
+    q.add("0000");
+    v.add("0000");
+
+    int t=0;
+
+    while(!q.isEmpty()) {
+      int n=q.size();
+
+      for(int z=0;z<n;z++) {
+        String s=q.remove();
+
+        if(s.equals(target))
+          return t;
+
+        for(int i=0;i<4;i++) {
+          for(int x:new int[]{-1,1}) {
+            char[] a=s.toCharArray();
+
+            a[i]=(char)((a[i]-'0'+x+10)%10+'0');
+
+            String p=new String(a);
+
+            if(!d.contains(p) && !v.contains(p)) {
+              v.add(p);
+              q.add(p);
+            }
+          }
+        }
+      }
+
+      t++;
+    }
+
+    return -1;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    String[] dead=new String[n];
+
+    for(int i=0;i<n;i++)
+      dead[i]=sc.next();
+
+    String target=sc.next();
+
+    System.out.println(openLock(dead,target));
+  }
+}
