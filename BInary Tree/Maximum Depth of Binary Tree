@@ -1,0 +1,81 @@
+/*
+Maximum Depth of Binary Tree
+
+Problem:
+
+Given the root of a binary tree, find its maximum depth.
+
+The maximum depth is the number of nodes along the longest path
+from the root node down to the farthest leaf node.
+
+Example:
+Input:
+3 9 20 null null 15 7
+
+Output:
+3
+*/
+
+import java.util.*;
+
+public class MaximumDepthBinaryTree {
+
+  static class Node {
+    int val;
+    Node left,right;
+
+    Node(int x) {
+      val=x;
+    }
+  }
+
+  static Node build(String[] a) {
+    if(a.length==0 || a[0].equals("null"))
+      return null;
+
+    Node root=new Node(Integer.parseInt(a[0]));
+    Queue<Node> q=new LinkedList<>();
+    q.add(root);
+
+    int i=1;
+
+    while(!q.isEmpty() && i<a.length) {
+      Node x=q.remove();
+
+      if(i<a.length && !a[i].equals("null")) {
+        x.left=new Node(Integer.parseInt(a[i]));
+        q.add(x.left);
+      }
+      i++;
+
+      if(i<a.length && !a[i].equals("null")) {
+        x.right=new Node(Integer.parseInt(a[i]));
+        q.add(x.right);
+      }
+      i++;
+    }
+
+    return root;
+  }
+
+  static int maxDepth(Node root) {
+    if(root==null)
+      return 0;
+
+    return 1+Math.max(maxDepth(root.left),maxDepth(root.right));
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    String[] a=new String[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.next();
+
+    Node root=build(a);
+
+    System.out.println(maxDepth(root));
+  }
+}
