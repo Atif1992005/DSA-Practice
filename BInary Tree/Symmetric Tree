@@ -1,0 +1,95 @@
+/*
+Symmetric Tree
+
+Problem:
+
+Given the root of a binary tree, check whether the tree is
+symmetric around its center.
+
+A tree is symmetric if its left and right subtrees are mirror
+images of each other.
+
+Example:
+Input:
+1 2 2 3 4 4 3
+
+Output:
+true
+*/
+
+import java.util.*;
+
+public class SymmetricTree {
+
+  static class Node {
+    int val;
+    Node left,right;
+
+    Node(int x) {
+      val=x;
+    }
+  }
+
+  static Node build(String[] a) {
+    if(a.length==0 || a[0].equals("null"))
+      return null;
+
+    Node root=new Node(Integer.parseInt(a[0]));
+    Queue<Node> q=new LinkedList<>();
+    q.add(root);
+
+    int i=1;
+
+    while(!q.isEmpty() && i<a.length) {
+      Node x=q.remove();
+
+      if(i<a.length && !a[i].equals("null")) {
+        x.left=new Node(Integer.parseInt(a[i]));
+        q.add(x.left);
+      }
+      i++;
+
+      if(i<a.length && !a[i].equals("null")) {
+        x.right=new Node(Integer.parseInt(a[i]));
+        q.add(x.right);
+      }
+      i++;
+    }
+
+    return root;
+  }
+
+  static boolean mirror(Node a,Node b) {
+    if(a==null && b==null)
+      return true;
+
+    if(a==null || b==null)
+      return false;
+
+    if(a.val!=b.val)
+      return false;
+
+    return mirror(a.left,b.right) && mirror(a.right,b.left);
+  }
+
+  static boolean symmetric(Node root) {
+    if(root==null)
+      return true;
+
+    return mirror(root.left,root.right);
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    String[] a=new String[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.next();
+
+    Node root=build(a);
+
+    System.out.println(symmetric(root));
+  }
+}
