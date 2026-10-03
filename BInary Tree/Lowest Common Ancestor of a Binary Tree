@@ -1,0 +1,101 @@
+/*
+Lowest Common Ancestor of a Binary Tree
+
+Problem:
+
+Given the root of a binary tree and two nodes p and q,
+find their lowest common ancestor (LCA).
+
+The lowest common ancestor is the lowest node in the tree
+that has both p and q as descendants.
+
+Example:
+Input:
+3 5 1 6 2 0 8 null null 7 4
+p = 5
+q = 1
+
+Output:
+3
+*/
+
+import java.util.*;
+
+public class LowestCommonAncestor {
+
+  static class Node {
+    int val;
+    Node left,right;
+
+    Node(int x) {
+      val=x;
+    }
+  }
+
+  static Node build(String[] a) {
+    if(a.length==0 || a[0].equals("null"))
+      return null;
+
+    Node root=new Node(Integer.parseInt(a[0]));
+    Queue<Node> q=new LinkedList<>();
+    q.add(root);
+
+    int i=1;
+
+    while(!q.isEmpty() && i<a.length) {
+      Node x=q.remove();
+
+      if(i<a.length && !a[i].equals("null")) {
+        x.left=new Node(Integer.parseInt(a[i]));
+        q.add(x.left);
+      }
+      i++;
+
+      if(i<a.length && !a[i].equals("null")) {
+        x.right=new Node(Integer.parseInt(a[i]));
+        q.add(x.right);
+      }
+      i++;
+    }
+
+    return root;
+  }
+
+  static Node lca(Node root,int p,int q) {
+    if(root==null || root.val==p || root.val==q)
+      return root;
+
+    Node l=lca(root.left,p,q);
+    Node r=lca(root.right,p,q);
+
+    if(l!=null && r!=null)
+      return root;
+
+    if(l!=null)
+      return l;
+
+    return r;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    String[] a=new String[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.next();
+
+    int p=sc.nextInt();
+    int q=sc.nextInt();
+
+    Node root=build(a);
+
+    Node ans=lca(root,p,q);
+
+    if(ans!=null)
+      System.out.println(ans.val);
+    else
+      System.out.println(-1);
+  }
+}
