@@ -1,0 +1,88 @@
+/*
+Validate Binary Search Tree
+
+Problem:
+
+Given the root of a binary tree, determine whether it is a
+valid Binary Search Tree (BST).
+
+In a valid BST:
+- All values in the left subtree are smaller than the node.
+- All values in the right subtree are greater than the node.
+- These rules must hold for every node.
+
+Example:
+Input:
+2 1 3
+
+Output:
+true
+*/
+
+import java.util.*;
+
+public class ValidateBST {
+
+  static class Node {
+    int val;
+    Node left,right;
+
+    Node(int x) {
+      val=x;
+    }
+  }
+
+  static Node build(String[] a) {
+    if(a.length==0 || a[0].equals("null"))
+      return null;
+
+    Node root=new Node(Integer.parseInt(a[0]));
+    Queue<Node> q=new LinkedList<>();
+    q.add(root);
+
+    int i=1;
+
+    while(!q.isEmpty() && i<a.length) {
+      Node x=q.remove();
+
+      if(i<a.length && !a[i].equals("null")) {
+        x.left=new Node(Integer.parseInt(a[i]));
+        q.add(x.left);
+      }
+      i++;
+
+      if(i<a.length && !a[i].equals("null")) {
+        x.right=new Node(Integer.parseInt(a[i]));
+        q.add(x.right);
+      }
+      i++;
+    }
+
+    return root;
+  }
+
+  static boolean valid(Node root,long min,long max) {
+    if(root==null)
+      return true;
+
+    if(root.val<=min || root.val>=max)
+      return false;
+
+    return valid(root.left,min,root.val) &&
+           valid(root.right,root.val,max);
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    String[] a=new String[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.next();
+
+    Node root=build(a);
+
+    System.out.println(valid(root,Long.MIN_VALUE,Long.MAX_VALUE));
+  }
+}
