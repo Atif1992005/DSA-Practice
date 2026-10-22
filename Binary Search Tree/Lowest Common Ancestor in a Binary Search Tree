@@ -1,0 +1,79 @@
+/*
+Lowest Common Ancestor in a Binary Search Tree
+
+Problem:
+
+Given the root of a Binary Search Tree (BST) and two node values
+p and q, find their lowest common ancestor (LCA).
+
+The LCA is the lowest node that has both p and q as descendants.
+A node can be a descendant of itself.
+
+Example:
+Input:
+6 2 8 0 4 7 9 3 5
+p = 2
+q = 8
+
+Output:
+6
+*/
+
+import java.util.*;
+
+public class LowestCommonAncestorBST {
+
+  static class Node {
+    int val;
+    Node left,right;
+
+    Node(int x) {
+      val=x;
+    }
+  }
+
+  static Node insert(Node root,int x) {
+    if(root==null)
+      return new Node(x);
+
+    if(x<root.val)
+      root.left=insert(root.left,x);
+    else if(x>root.val)
+      root.right=insert(root.right,x);
+
+    return root;
+  }
+
+  static Node lca(Node root,int p,int q) {
+    while(root!=null) {
+      if(p<root.val && q<root.val)
+        root=root.left;
+      else if(p>root.val && q>root.val)
+        root=root.right;
+      else
+        return root;
+    }
+
+    return null;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    Node root=null;
+
+    for(int i=0;i<n;i++)
+      root=insert(root,sc.nextInt());
+
+    int p=sc.nextInt();
+    int q=sc.nextInt();
+
+    Node ans=lca(root,p,q);
+
+    if(ans!=null)
+      System.out.println(ans.val);
+    else
+      System.out.println(-1);
+  }
+}
