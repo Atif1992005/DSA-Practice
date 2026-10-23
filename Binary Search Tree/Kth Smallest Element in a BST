@@ -1,0 +1,81 @@
+/*
+Kth Smallest Element in a BST
+
+Problem:
+
+Given the root of a Binary Search Tree (BST) and an integer k,
+find the kth smallest value in the tree.
+
+Example:
+Input:
+3 1 4 null 2
+k = 1
+
+Output:
+1
+
+Explanation:
+The sorted values are 1, 2, 3, 4.
+The 1st smallest value is 1.
+*/
+
+import java.util.*;
+
+public class KthSmallestBST {
+
+  static class Node {
+    int val;
+    Node left,right;
+
+    Node(int x) {
+      val=x;
+    }
+  }
+
+  static Node insert(Node root,int x) {
+    if(root==null)
+      return new Node(x);
+
+    if(x<root.val)
+      root.left=insert(root.left,x);
+    else if(x>root.val)
+      root.right=insert(root.right,x);
+
+    return root;
+  }
+
+  static int kthSmallest(Node root,int k) {
+    Stack<Node> s=new Stack<>();
+
+    while(root!=null || !s.isEmpty()) {
+      while(root!=null) {
+        s.push(root);
+        root=root.left;
+      }
+
+      root=s.pop();
+      k--;
+
+      if(k==0)
+        return root.val;
+
+      root=root.right;
+    }
+
+    return -1;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    Node root=null;
+
+    for(int i=0;i<n;i++)
+      root=insert(root,sc.nextInt());
+
+    int k=sc.nextInt();
+
+    System.out.println(kthSmallest(root,k));
+  }
+}
