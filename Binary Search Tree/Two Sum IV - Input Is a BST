@@ -1,0 +1,78 @@
+/*
+Two Sum IV - Input Is a BST
+
+Problem:
+
+Given the root of a Binary Search Tree (BST) and an integer k,
+determine whether there are two different nodes in the tree
+whose values add up to k.
+
+Return true if such a pair exists, otherwise return false.
+
+Example:
+Input:
+5 3 6 2 4 null 7
+k = 9
+
+Output:
+true
+
+Explanation:
+The nodes with values 2 and 7 add up to 9.
+*/
+
+import java.util.*;
+
+public class TwoSumBST {
+
+  static class Node {
+    int val;
+    Node left,right;
+
+    Node(int x) {
+      val=x;
+    }
+  }
+
+  static Node insert(Node root,int x) {
+    if(root==null)
+      return new Node(x);
+
+    if(x<root.val)
+      root.left=insert(root.left,x);
+    else if(x>root.val)
+      root.right=insert(root.right,x);
+
+    return root;
+  }
+
+  static boolean find(Node root,int k,HashSet<Integer> s) {
+    if(root==null)
+      return false;
+
+    if(s.contains(k-root.val))
+      return true;
+
+    s.add(root.val);
+
+    return find(root.left,k,s) || find(root.right,k,s);
+  }
+
+  static boolean twoSum(Node root,int k) {
+    return find(root,k,new HashSet<>());
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    Node root=null;
+
+    for(int i=0;i<n;i++)
+      root=insert(root,sc.nextInt());
+
+    int k=sc.nextInt();
+
+    System.out.println(twoSum(root,k));
+  }
+}
