@@ -1,0 +1,64 @@
+/*
+Top K Frequent Elements
+
+Problem:
+
+Given an integer array nums and an integer k, return the k
+most frequent elements.
+
+If two elements have the same frequency, either order is accepted.
+
+Example:
+Input:
+nums = [1,1,1,2,2,3]
+k = 2
+
+Output:
+[1,2]
+*/
+
+import java.util.*;
+
+public class TopKFrequentElements {
+
+  static int[] topKFrequent(int[] a,int k) {
+    HashMap<Integer,Integer> m=new HashMap<>();
+
+    for(int x:a)
+      m.put(x,m.getOrDefault(x,0)+1);
+
+    PriorityQueue<Integer> q=new PriorityQueue<>(
+      (x,y)->m.get(x)-m.get(y)
+    );
+
+    for(int x:m.keySet()) {
+      q.add(x);
+
+      if(q.size()>k)
+        q.remove();
+    }
+
+    int[] ans=new int[k];
+
+    for(int i=0;i<k;i++)
+      ans[i]=q.remove();
+
+    return ans;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int n=sc.nextInt();
+    int[] a=new int[n];
+
+    for(int i=0;i<n;i++)
+      a[i]=sc.nextInt();
+
+    int k=sc.nextInt();
+
+    int[] ans=topKFrequent(a,k);
+
+    System.out.println(Arrays.toString(ans));
+  }
+}
