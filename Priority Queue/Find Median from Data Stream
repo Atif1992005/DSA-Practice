@@ -1,0 +1,71 @@
+/*
+Find Median from Data Stream
+
+Problem:
+
+Design a data structure that supports two operations:
+
+1. addNum(num): Add an integer to the data stream.
+2. findMedian(): Return the median of all numbers added so far.
+
+If the number of elements is odd, return the middle value.
+If even, return the average of the two middle values.
+
+Example:
+Input:
+addNum(1)
+addNum(2)
+findMedian()
+addNum(3)
+findMedian()
+
+Output:
+1.5
+2.0
+*/
+
+import java.util.*;
+
+public class MedianFinder {
+
+  PriorityQueue<Integer> small=new PriorityQueue<>(
+    Collections.reverseOrder()
+  );
+
+  PriorityQueue<Integer> large=new PriorityQueue<>();
+
+  void addNum(int x) {
+    small.add(x);
+
+    large.add(small.remove());
+
+    if(large.size()>small.size())
+      small.add(large.remove());
+  }
+
+  double findMedian() {
+    if(small.size()>large.size())
+      return small.peek();
+
+    return (small.peek()+large.peek())/2.0;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    MedianFinder x=new MedianFinder();
+
+    int n=sc.nextInt();
+
+    for(int i=0;i<n;i++) {
+      int op=sc.nextInt();
+
+      if(op==1) {
+        x.addNum(sc.nextInt());
+      }
+      else if(op==2) {
+        System.out.println(x.findMedian());
+      }
+    }
+  }
+}
