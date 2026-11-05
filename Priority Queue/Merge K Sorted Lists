@@ -1,0 +1,87 @@
+/*
+Merge K Sorted Lists
+
+Problem:
+
+You are given k sorted linked lists.
+
+Merge all the linked lists into one sorted linked list
+and return its head.
+
+Example:
+Input:
+List 1: 1 4 5
+List 2: 1 3 4
+List 3: 2 6
+
+Output:
+1 1 2 3 4 4 5 6
+*/
+
+import java.util.*;
+
+public class MergeKSortedLists {
+
+  static class Node {
+    int val;
+    Node next;
+
+    Node(int x) {
+      val=x;
+    }
+  }
+
+  static Node merge(Node[] a) {
+    PriorityQueue<Node> q=new PriorityQueue<>(
+      (x,y)->Integer.compare(x.val,y.val)
+    );
+
+    for(Node x:a) {
+      if(x!=null)
+        q.add(x);
+    }
+
+    Node dummy=new Node(0);
+    Node t=dummy;
+
+    while(!q.isEmpty()) {
+      Node x=q.remove();
+
+      t.next=x;
+      t=x;
+
+      if(x.next!=null)
+        q.add(x.next);
+    }
+
+    return dummy.next;
+  }
+
+  public static void main(String[] args) {
+    Scanner sc=new Scanner(System.in);
+
+    int k=sc.nextInt();
+    Node[] a=new Node[k];
+
+    for(int i=0;i<k;i++) {
+      int n=sc.nextInt();
+
+      Node dummy=new Node(0);
+      Node t=dummy;
+
+      for(int j=0;j<n;j++) {
+        t.next=new Node(sc.nextInt());
+        t=t.next;
+      }
+
+      a[i]=dummy.next;
+    }
+
+    Node ans=merge(a);
+
+    while(ans!=null) {
+      System.out.print(ans.val+" ");
+      ans=ans.next;
+    }
+  }
+}
