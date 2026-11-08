@@ -1,0 +1,83 @@
+/*
+Task Scheduler
+
+Given tasks represented by uppercase letters.
+Each task takes 1 unit of time.
+
+The same task must have at least n units
+of cooldown time between executions.
+
+Find the minimum time required.
+
+Example:
+Input:
+6
+A A A B B B
+2
+
+Output:
+8
+*/
+
+import java.util.*;
+
+public class TaskScheduler {
+
+    static int solve(char[] tasks, int n) {
+        int[] f=new int[26];
+
+        for(char c:tasks)
+            f[c-'A']++;
+
+        PriorityQueue<Integer> q=new PriorityQueue<>(
+            Collections.reverseOrder()
+        );
+
+        for(int x:f) {
+            if(x>0)
+                q.add(x);
+        }
+
+        int time=0;
+
+        while(!q.isEmpty()) {
+            int cycle=n+1;
+            ArrayList<Integer> temp=new ArrayList<>();
+
+            while(cycle>0 && !q.isEmpty()) {
+                int x=q.remove();
+                x--;
+
+                if(x>0)
+                    temp.add(x);
+
+                time++;
+                cycle--;
+            }
+
+            for(int x:temp)
+                q.add(x);
+
+            if(q.isEmpty())
+                break;
+
+            time+=cycle;
+        }
+
+        return time;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+
+        int m=sc.nextInt();
+        char[] tasks=new char[m];
+
+        for(int i=0;i<m;i++)
+            tasks[i]=sc.next().charAt(0);
+
+        int n=sc.nextInt();
+
+        System.out.println(solve(tasks,n));
+    }
+}
