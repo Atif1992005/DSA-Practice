@@ -1,0 +1,61 @@
+/*
+Last Stone Weight
+
+Given an array of stones, repeatedly take the two
+heaviest stones and smash them.
+
+If both have equal weight, both are destroyed.
+
+Otherwise, the smaller stone is destroyed and the
+remaining weight of the larger stone is added back.
+
+Return the last stone's weight.
+If no stone remains, return 0.
+
+Example:
+Input:
+6
+2 7 4 1 8 1
+
+Output:
+1
+*/
+
+import java.util.*;
+
+public class LastStoneWeight {
+
+    static int solve(int[] a) {
+        PriorityQueue<Integer> q=new PriorityQueue<>(
+            Collections.reverseOrder()
+        );
+
+        for(int x:a)
+            q.add(x);
+
+        while(q.size()>1) {
+            int x=q.remove();
+            int y=q.remove();
+
+            if(x!=y)
+                q.add(x-y);
+        }
+
+        if(q.isEmpty())
+            return 0;
+
+        return q.remove();
+    }
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+
+        int n=sc.nextInt();
+        int[] a=new int[n];
+
+        for(int i=0;i<n;i++)
+            a[i]=sc.nextInt();
+
+        System.out.println(solve(a));
+    }
+}
