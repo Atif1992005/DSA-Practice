@@ -1,0 +1,91 @@
+/*
+Smallest Range Covering Elements from K Lists
+
+Given k sorted lists, find the smallest range
+that contains at least one number from every list.
+
+Example:
+Input:
+3
+5
+4 10 15 24 26
+4
+0 9 12 20
+4
+5 18 22 30
+
+Output:
+20 24
+*/
+
+import java.util.*;
+
+public class SmallestRange {
+
+    static class Pair {
+        int val,list,index;
+
+        Pair(int val,int list,int index) {
+            this.val=val;
+            this.list=list;
+            this.index=index;
+        }
+    }
+
+    static void solve(ArrayList<ArrayList<Integer>> a) {
+        PriorityQueue<Pair> q=new PriorityQueue<>(
+            (x,y)->x.val-y.val
+        );
+
+        int max=Integer.MIN_VALUE;
+
+        for(int i=0;i<a.size();i++) {
+            int x=a.get(i).get(0);
+            q.add(new Pair(x,i,0));
+            max=Math.max(max,x);
+        }
+
+        int l=0,r=Integer.MAX_VALUE;
+
+        while(q.size()==a.size()) {
+            Pair p=q.remove();
+
+            if(max-p.val<r-l) {
+                l=p.val;
+                r=max;
+            }
+
+            int next=p.index+1;
+
+            if(next==a.get(p.list).size())
+                break;
+
+            int x=a.get(p.list).get(next);
+
+            q.add(new Pair(x,p.list,next));
+            max=Math.max(max,x);
+        }
+
+        System.out.println(l+" "+r);
+    }
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+
+        int k=sc.nextInt();
+
+        ArrayList<ArrayList<Integer>> a=new ArrayList<>();
+
+        for(int i=0;i<k;i++) {
+            int n=sc.nextInt();
+            ArrayList<Integer> list=new ArrayList<>();
+
+            for(int j=0;j<n;j++)
+                list.add(sc.nextInt());
+
+            a.add(list);
+        }
+
+        solve(a);
+    }
+}
