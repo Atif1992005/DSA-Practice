@@ -1,0 +1,78 @@
+/*
+Course Schedule
+
+Given n courses and their prerequisites.
+
+A pair [a, b] means course b must be completed
+before course a.
+
+Check whether all courses can be completed.
+
+If there is a cycle, return false.
+
+Example:
+Input:
+2 1
+1 0
+
+Output:
+true
+*/
+
+import java.util.*;
+
+public class CourseSchedule {
+
+    static boolean solve(int n,ArrayList<ArrayList<Integer>> a) {
+        int[] in=new int[n];
+
+        for(int i=0;i<n;i++) {
+            for(int x:a.get(i))
+                in[i]++;
+        }
+
+        Queue<Integer> q=new LinkedList<>();
+
+        for(int i=0;i<n;i++) {
+            if(in[i]==0)
+                q.add(i);
+        }
+
+        int count=0;
+
+        while(!q.isEmpty()) {
+            int x=q.remove();
+            count++;
+
+            for(int y:a.get(x)) {
+                in[y]--;
+
+                if(in[y]==0)
+                    q.add(y);
+            }
+        }
+
+        return count==n;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+
+        int n=sc.nextInt();
+        int m=sc.nextInt();
+
+        ArrayList<ArrayList<Integer>> a=new ArrayList<>();
+
+        for(int i=0;i<n;i++)
+            a.add(new ArrayList<>());
+
+        for(int i=0;i<m;i++) {
+            int x=sc.nextInt();
+            int y=sc.nextInt();
+
+            a.get(y).add(x);
+        }
+
+        System.out.println(solve(n,a));
+    }
+}
