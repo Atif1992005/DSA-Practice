@@ -1,0 +1,65 @@
+/*
+Number of Provinces
+
+Given an n x n matrix representing connections between cities.
+
+If a[i][j] = 1, city i and city j are connected.
+
+A province is a group of cities connected directly
+or indirectly.
+
+Find the number of provinces.
+
+Example:
+Input:
+3
+1 1 0
+1 1 0
+0 0 1
+
+Output:
+2
+*/
+
+import java.util.*;
+
+public class NumberOfProvinces {
+
+    static void dfs(int[][] a,boolean[] vis,int x) {
+        vis[x]=true;
+
+        for(int i=0;i<a.length;i++) {
+            if(a[x][i]==1 && !vis[i])
+                dfs(a,vis,i);
+        }
+    }
+
+    static int solve(int[][] a) {
+        int n=a.length;
+        boolean[] vis=new boolean[n];
+        int count=0;
+
+        for(int i=0;i<n;i++) {
+            if(!vis[i]) {
+                count++;
+                dfs(a,vis,i);
+            }
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc=new Scanner(System.in);
+
+        int n=sc.nextInt();
+        int[][] a=new int[n][n];
+
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<n;j++)
+                a[i][j]=sc.nextInt();
+        }
+
+        System.out.println(solve(a));
+    }
+}
